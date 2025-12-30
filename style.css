@@ -1,16 +1,16 @@
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    user-select: none;
     background-color: #020617;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .math-grid {
     background-image: 
-        linear-gradient(rgba(16, 185, 129, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
-    background-size: 50px 50px;
+        linear-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
 }
 
 .glow-orb {
@@ -18,46 +18,123 @@ body {
     width: 60vw;
     height: 60vw;
     border-radius: 50%;
-    filter: blur(100px);
+    filter: blur(140px);
     pointer-events: none;
-    z-index: -1;
 }
 
-@keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Amazing Buttons Navigation */
+.amazing-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.2rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #94a3b8;
 }
 
-@keyframes scale-in {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+.amazing-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
 }
 
-.animate-fade-in { animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.scale-in { animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.amazing-btn:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); color: white; }
 
-.custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.amazing-btn.active { box-shadow: 0 10px 25px -5px currentColor; border-color: currentColor; color: white !important; }
 
-.lesson-scroller {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+/* Themes */
+.amazing-btn-emerald.active { background: #10b981; }
+.amazing-btn-sky.active { background: #0ea5e9; }
+.amazing-btn-violet.active { background: #8b5cf6; }
+.amazing-btn-rose.active { background: #f43f5e; }
+.amazing-btn-amber.active { background: #f59e0b; }
+.amazing-btn-indigo.active { background: #6366f1; }
+
+/* Sidebar List */
+.topic-card {
+    width: 100%;
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.25rem;
+    text-align: left;
+    transition: all 0.3s;
+    position: relative;
 }
-.lesson-scroller::-webkit-scrollbar {
-    display: none;
+
+.topic-card:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(5px); border-color: rgba(255,255,255,0.1); }
+
+.topic-card-active {
+    background: rgba(255,255,255,0.08) !important;
+    border-color: rgba(255,255,255,0.2) !important;
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.3);
 }
 
-svg { 
-    touch-action: none;
-    overflow: visible;
+/* Explanation Panel Styling */
+.explanation-li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    transition: all 0.3s;
 }
 
-/* Ensure buttons and inputs are large enough for touch */
-button, input, select {
-    min-height: 44px;
+.li-bullet {
+    margin-top: 0.5rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    flex-shrink: 0;
+    transition: transform 0.3s;
 }
 
-@media (max-width: 768px) {
-    .glow-orb { width: 100vw; height: 100vw; }
+.explanation-li:hover .li-bullet {
+    transform: scale(1.5);
+    box-shadow: 0 0 10px #10b981;
+}
+
+.li-text {
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #94a3b8;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+.explanation-li:hover .li-text {
+    color: #f1f5f9;
+}
+
+svg { touch-action: none; overflow: visible; }
+button:active { transform: scale(0.96); }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+#view-lesson-title {
+    letter-spacing: -0.02em;
+    background: linear-gradient(to bottom right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Rating Module */
+.rating-star:hover {
+    transform: scale(1.2);
+}
+
+/* Creator Panel */
+input[type="range"] {
+    -webkit-appearance: none;
+    height: 4px;
+    background: #1e293b;
+    border-radius: 2px;
 }
