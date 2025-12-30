@@ -18,6 +18,7 @@ const localState = {
     lesson: 'Equilateral Δ',
     mastery: 45,
     rating: 0,
+    isMenuOpen: false,
     workflow: {} as Record<string, 'idle' | 'active' | 'complete'>,
     points: {
         t1a: { x: 250, y: 100 }, t1b: { x: 100, y: 350 }, t1c: { x: 400, y: 350 },
@@ -72,7 +73,6 @@ const DOMAINS: { id: LabDomain; label: string; icon: string; color: string }[] =
 ];
 
 function init() {
-    renderNav();
     setupEventListeners();
     updateUI();
     cycleQuotes();
@@ -95,6 +95,21 @@ function setupEventListeners() {
 
     document.getElementById('close-settings')?.addEventListener('click', () => {
         document.getElementById('creator-panel')?.classList.add('translate-x-full');
+    });
+
+    document.getElementById('mobile-menu-toggle')?.addEventListener('click', () => {
+        localState.isMenuOpen = !localState.isMenuOpen;
+        const sidebar = document.getElementById('sidebar');
+        if (localState.isMenuOpen) sidebar?.classList.remove('-translate-x-full');
+        else sidebar?.classList.add('-translate-x-full');
+    });
+
+    // Close menu when clicking outside on mobile
+    document.querySelector('section')?.addEventListener('click', () => {
+        if (localState.isMenuOpen) {
+            localState.isMenuOpen = false;
+            document.getElementById('sidebar')?.classList.add('-translate-x-full');
+        }
     });
 
     document.querySelectorAll('.rating-star').forEach(star => {
@@ -134,9 +149,9 @@ function cycleQuotes() {
 
 function renderNav() {
     const nav = document.getElementById('nav-container');
-    if (!nav) return;
-    nav.innerHTML = '';
-    DOMAINS.forEach(d => {
+    const navMobile = document.getElementById('nav-container-mobile');
+    
+    const createBtn = (d: any) => {
         const btn = document.createElement('button');
         btn.className = `amazing-btn amazing-btn-${d.color} ${localState.domain === d.id ? 'active' : ''}`;
         btn.innerHTML = `<i data-lucide="${d.icon}" class="w-4 h-4"></i><span class="amazing-label">${d.label}</span>`;
@@ -144,9 +159,23 @@ function renderNav() {
             localState.domain = d.id; 
             localState.lesson = LAB_MAP[d.id][0]; 
             updateUI(); 
+            // Close mobile menu if open
+            if (localState.isMenuOpen) {
+                localState.isMenuOpen = false;
+                document.getElementById('sidebar')?.classList.add('-translate-x-full');
+            }
         };
-        nav.appendChild(btn);
-    });
+        return btn;
+    };
+
+    if (nav) {
+        nav.innerHTML = '';
+        DOMAINS.forEach(d => nav.appendChild(createBtn(d)));
+    }
+    if (navMobile) {
+        navMobile.innerHTML = '';
+        DOMAINS.forEach(d => navMobile.appendChild(createBtn(d)));
+    }
 }
 
 function updateUI() {
@@ -162,7 +191,7 @@ function updateUI() {
             btn.className = `topic-card ${isActive ? 'topic-card-active' : ''}`;
             
             let wkIndicator = '';
-            if (isActive) wkIndicator = `<div class="mt-2 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-emerald-500 animate-ping"></span><span class="text-[7px] font-black text-emerald-500 uppercase tracking-widest">Active Workflow</span></div>`;
+            if (isActive) wkIndicator = `<div class="mt-2 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span><span class="text-[7px] font-black text-emerald-500 uppercase tracking-widest">Active Workflow</span></div>`;
             else if (status === 'complete') wkIndicator = `<div class="mt-2 flex items-center gap-2 text-emerald-500/50"><i data-lucide="check" class="w-2 h-2"></i><span class="text-[7px] font-bold uppercase">Mastered</span></div>`;
 
             btn.innerHTML = `
@@ -177,6 +206,11 @@ function updateUI() {
                 localState.lesson = name; 
                 localState.workflow[name] = 'active';
                 updateUI(); 
+                // Close mobile menu if open
+                if (localState.isMenuOpen) {
+                    localState.isMenuOpen = false;
+                    document.getElementById('sidebar')?.classList.add('-translate-x-full');
+                }
             };
             list.appendChild(btn);
         });
@@ -222,7 +256,7 @@ function draw() {
     }
 }
 
-// --- Specific Lab Implementation (Simplified for brevity as requested not to change other things) ---
+// --- Specific Lab Implementation (Simplified for brevity) ---
 function drawCoordinates(svg: any, addLabel: any) {
     const { p1, p2 } = localState.points;
     for(let i=10; i<=490; i+=40) {

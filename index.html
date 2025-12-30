@@ -21,7 +21,7 @@
 }
 </script>
 </head>
-<body class="bg-[#020617] text-slate-200 overflow-hidden select-none font-['Plus_Jakarta_Sans']">
+<body class="bg-[#020617] text-slate-200 overflow-x-hidden select-none font-['Plus_Jakarta_Sans']">
     <!-- Visual Atmosphere -->
     <div class="fixed inset-0 z-0 pointer-events-none">
         <div class="glow-orb top-[-20%] left-[-10%] bg-emerald-500/10"></div>
@@ -30,7 +30,7 @@
     </div>
 
     <!-- SETTINGS & CREATOR PANEL -->
-    <div id="creator-panel" class="fixed right-0 top-0 h-full w-80 bg-slate-950/90 backdrop-blur-3xl border-l border-white/10 z-[2000] translate-x-full transition-transform duration-500 p-8 flex flex-col gap-8 shadow-2xl">
+    <div id="creator-panel" class="fixed right-0 top-0 h-full w-full sm:w-80 bg-slate-950/95 backdrop-blur-3xl border-l border-white/10 z-[2000] translate-x-full transition-transform duration-500 p-6 sm:p-8 flex flex-col gap-8 shadow-2xl">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-black italic text-white uppercase tracking-tighter">Command Center</h2>
             <button id="close-settings" class="p-2 hover:bg-white/10 rounded-full transition-all text-slate-500"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -68,25 +68,25 @@
     </div>
 
     <!-- CINEMATIC LOGIN -->
-    <section id="auth-hub" class="fixed inset-0 z-[1000] flex items-center justify-center p-6 bg-[#020617] backdrop-blur-3xl transition-all duration-1000">
-        <div class="w-full max-w-[1000px] bg-slate-950/40 border border-white/10 rounded-[4rem] shadow-2xl flex flex-col md:flex-row overflow-hidden scale-in relative">
-            <div class="p-16 md:w-1/2 bg-gradient-to-br from-emerald-600/20 to-slate-950 flex flex-col justify-between border-r border-white/5 relative z-10">
-                <div class="space-y-10">
-                    <div class="w-20 h-20 bg-emerald-500 rounded-[2rem] flex items-center justify-center shadow-2xl">
-                        <i data-lucide="triangle" class="text-white w-10 h-10"></i>
+    <section id="auth-hub" class="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-[#020617] backdrop-blur-3xl transition-all duration-1000">
+        <div class="w-full max-w-[900px] bg-slate-950/40 border border-white/10 rounded-[2.5rem] sm:rounded-[4rem] shadow-2xl flex flex-col md:flex-row overflow-hidden scale-in relative">
+            <div class="p-10 sm:p-16 md:w-1/2 bg-gradient-to-br from-emerald-600/20 to-slate-950 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/5 relative z-10">
+                <div class="space-y-6 sm:space-y-10">
+                    <div class="w-16 h-16 sm:w-20 h-20 bg-emerald-500 rounded-2xl sm:rounded-[2rem] flex items-center justify-center shadow-2xl">
+                        <i data-lucide="triangle" class="text-white w-8 h-8 sm:w-10 h-10"></i>
                     </div>
                     <div>
-                        <h1 class="text-5xl font-black text-white italic leading-none tracking-tighter">GEOLAB<br/><span class="text-emerald-400">PREMIUM.</span></h1>
-                        <p class="mt-6 text-slate-500 text-xs font-bold uppercase tracking-widest leading-loose">The Ultimate Interactive Suite for Class 9 Spatial Mathematics.</p>
+                        <h1 class="text-3xl sm:text-5xl font-black text-white italic leading-none tracking-tighter">GEOLAB<br/><span class="text-emerald-400">PREMIUM.</span></h1>
+                        <p class="mt-4 sm:mt-6 text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-widest leading-loose">The Ultimate Interactive Suite for Class 9 Spatial Mathematics.</p>
                     </div>
                 </div>
             </div>
-            <div class="p-16 md:w-1/2 flex flex-col justify-center gap-8 relative z-10">
+            <div class="p-10 sm:p-16 md:w-1/2 flex flex-col justify-center gap-6 sm:gap-8 relative z-10">
                 <div class="space-y-2">
-                    <h2 class="text-2xl font-black text-white italic tracking-tight">Identity Request</h2>
-                    <input type="text" id="login-user" placeholder="Your Name..." class="w-full bg-slate-900/50 border border-white/10 rounded-2xl px-8 py-6 text-white font-mono focus:ring-4 focus:ring-emerald-500/20 transition-all outline-none uppercase tracking-widest placeholder:text-slate-800">
+                    <h2 class="text-xl sm:text-2xl font-black text-white italic tracking-tight">Identity Request</h2>
+                    <input type="text" id="login-user" placeholder="Your Name..." class="w-full bg-slate-900/50 border border-white/10 rounded-xl sm:rounded-2xl px-6 py-4 sm:px-8 sm:py-6 text-white font-mono focus:ring-4 focus:ring-emerald-500/20 transition-all outline-none uppercase tracking-widest placeholder:text-slate-800">
                 </div>
-                <button id="btn-login-submit" class="w-full py-6 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-black text-white uppercase tracking-[0.4em] text-[10px] transition-all shadow-2xl active:scale-95">
+                <button id="btn-login-submit" class="w-full py-4 sm:py-6 bg-emerald-600 hover:bg-emerald-500 rounded-xl sm:rounded-2xl font-black text-white uppercase tracking-[0.4em] text-[9px] sm:text-[10px] transition-all shadow-2xl active:scale-95">
                     Enter Laboratory
                 </button>
             </div>
@@ -95,36 +95,46 @@
 
     <!-- MAIN APP -->
     <main id="app-shell" class="hidden h-screen flex flex-col opacity-0 transition-opacity duration-1000">
-        <header class="p-6 bg-slate-950/80 backdrop-blur-3xl border-b border-white/5 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="p-2 bg-emerald-500 rounded-xl"><i data-lucide="layout-grid" class="text-white w-5 h-5"></i></div>
-                <div>
-                    <h1 class="text-lg font-black text-white italic tracking-tighter uppercase leading-none">GeoLab Command</h1>
-                    <span id="user-display" class="text-[8px] font-black text-emerald-500 uppercase tracking-[0.4em]">Active Session</span>
+        <header class="p-4 sm:p-6 bg-slate-950/80 backdrop-blur-3xl border-b border-white/5 flex items-center justify-between z-50">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <button id="mobile-menu-toggle" class="xl:hidden p-2 bg-white/5 rounded-lg border border-white/10">
+                    <i data-lucide="menu" class="w-5 h-5 text-emerald-500"></i>
+                </button>
+                <div class="p-2 bg-emerald-500 rounded-lg sm:rounded-xl"><i data-lucide="layout-grid" class="text-white w-4 h-4 sm:w-5 h-5"></i></div>
+                <div class="hidden sm:block">
+                    <h1 class="text-sm sm:text-lg font-black text-white italic tracking-tighter uppercase leading-none">GeoLab Command</h1>
+                    <span id="user-display" class="text-[7px] sm:text-[8px] font-black text-emerald-500 uppercase tracking-[0.4em]">Active Session</span>
                 </div>
             </div>
 
             <!-- AMAZING BUTTON CONTAINER -->
             <div id="nav-container" class="hidden xl:flex items-center gap-3"></div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 sm:gap-4">
                 <!-- RATING MODULE -->
-                <div id="rating-module" class="flex items-center gap-1 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
-                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="1"><i data-lucide="star" class="w-3 h-3 fill-current"></i></button>
-                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="2"><i data-lucide="star" class="w-3 h-3 fill-current"></i></button>
-                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="3"><i data-lucide="star" class="w-3 h-3 fill-current"></i></button>
-                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="4"><i data-lucide="star" class="w-3 h-3 fill-current"></i></button>
-                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="5"><i data-lucide="star" class="w-3 h-3 fill-current"></i></button>
+                <div id="rating-module" class="flex items-center gap-1 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
+                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="1"><i data-lucide="star" class="w-2.5 h-2.5 sm:w-3 h-3 fill-current"></i></button>
+                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="2"><i data-lucide="star" class="w-2.5 h-2.5 sm:w-3 h-3 fill-current"></i></button>
+                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="3"><i data-lucide="star" class="w-2.5 h-2.5 sm:w-3 h-3 fill-current"></i></button>
+                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="4"><i data-lucide="star" class="w-2.5 h-2.5 sm:w-3 h-3 fill-current"></i></button>
+                    <button class="rating-star text-slate-600 hover:text-amber-400 transition-colors" data-star="5"><i data-lucide="star" class="w-2.5 h-2.5 sm:w-3 h-3 fill-current"></i></button>
                 </div>
                 
-                <button id="toggle-settings" class="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-slate-300 transition-all"><i data-lucide="settings" class="w-4 h-4"></i></button>
-                <button id="logout-trigger" class="p-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 rounded-xl text-rose-500 transition-all"><i data-lucide="power" class="w-4 h-4"></i></button>
+                <button id="toggle-settings" class="p-2 sm:p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg sm:rounded-xl text-slate-300 transition-all"><i data-lucide="settings" class="w-4 h-4"></i></button>
+                <button id="logout-trigger" class="p-2 sm:p-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 rounded-lg sm:rounded-xl text-rose-500 transition-all"><i data-lucide="power" class="w-4 h-4"></i></button>
             </div>
         </header>
 
-        <div class="flex-1 flex overflow-hidden">
-            <aside class="w-80 p-8 border-r border-white/5 bg-slate-950/40 backdrop-blur-xl flex flex-col">
-                <div class="flex-1 overflow-y-auto space-y-8 pr-2">
+        <div class="flex-1 flex overflow-hidden relative">
+            <!-- Sidebar with Mobile Logic -->
+            <aside id="sidebar" class="absolute inset-y-0 left-0 z-40 w-72 sm:w-80 p-6 sm:p-8 border-r border-white/5 bg-slate-950/95 sm:bg-slate-950/40 backdrop-blur-3xl sm:backdrop-blur-xl flex flex-col -translate-x-full xl:translate-x-0 transition-transform duration-300">
+                <div class="flex-1 overflow-y-auto space-y-8 pr-2 custom-scrollbar">
+                    <!-- Mobile View Nav Copy -->
+                    <div class="xl:hidden space-y-4">
+                        <h2 class="text-[9px] font-black text-slate-600 uppercase tracking-[0.4em]">Laboratories</h2>
+                        <div id="nav-container-mobile" class="grid grid-cols-2 gap-2"></div>
+                    </div>
+
                     <div class="space-y-4">
                         <h2 class="text-[9px] font-black text-slate-600 uppercase tracking-[0.4em]">Active Modules</h2>
                         <div id="lesson-list" class="grid grid-cols-1 gap-2"></div>
@@ -132,40 +142,39 @@
                 </div>
 
                 <!-- MATH QUOTES MODULE -->
-                <div id="quote-card" class="mt-8 p-6 bg-emerald-500/5 border border-emerald-500/10 rounded-3xl relative overflow-hidden">
+                <div id="quote-card" class="mt-8 p-6 bg-emerald-500/5 border border-emerald-500/10 rounded-3xl relative overflow-hidden shrink-0">
                     <div class="absolute -top-4 -right-4 opacity-10"><i data-lucide="quote" class="w-16 h-16 text-emerald-400"></i></div>
                     <p id="math-quote-text" class="text-xs font-medium italic text-slate-400 leading-relaxed">"Mathematics is the music of reason."</p>
                     <p id="math-quote-author" class="mt-3 text-[9px] font-black text-emerald-500 uppercase tracking-widest">— James Sylvester</p>
                 </div>
             </aside>
 
-            <section class="flex-1 p-10 flex flex-col gap-10 overflow-y-auto bg-slate-950/10">
-                <div class="grid grid-cols-1 xl:grid-cols-12 gap-12 items-start max-w-7xl mx-auto w-full">
-                    <div class="xl:col-span-7">
-                        <div class="relative bg-slate-950 rounded-[4rem] border border-white/10 shadow-2xl overflow-hidden aspect-square">
+            <!-- Main Content Area -->
+            <section class="flex-1 p-4 sm:p-6 md:p-10 flex flex-col gap-8 sm:gap-10 overflow-y-auto bg-slate-950/10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start max-w-7xl mx-auto w-full">
+                    <div class="lg:col-span-7 w-full">
+                        <div class="relative bg-slate-950 rounded-[2rem] sm:rounded-[4rem] border border-white/10 shadow-2xl overflow-hidden aspect-square w-full">
                             <div class="absolute inset-0 opacity-[0.02] math-grid pointer-events-none"></div>
-                            <svg id="canvas" viewBox="0 0 500 500" class="w-full h-full cursor-crosshair relative z-10"></svg>
+                            <svg id="canvas" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" class="w-full h-full cursor-crosshair relative z-10"></svg>
                         </div>
                     </div>
 
-                    <div class="xl:col-span-5 space-y-8">
+                    <div class="lg:col-span-5 space-y-6 sm:space-y-8">
                         <div class="space-y-2">
-                            <h2 id="view-lesson-title" class="text-4xl font-black text-white italic tracking-tighter uppercase leading-none">Loading...</h2>
-                            <p id="lab-desc" class="text-slate-500 text-sm leading-relaxed font-medium italic">...</p>
+                            <h2 id="view-lesson-title" class="text-2xl sm:text-4xl font-black text-white italic tracking-tighter uppercase leading-none">Loading...</h2>
+                            <p id="lab-desc" class="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium italic">...</p>
                         </div>
 
                         <!-- EXPLANATION CARD -->
-                        <div id="explanation-card" class="p-8 bg-white/5 border border-white/5 rounded-[3rem] space-y-6 relative overflow-hidden group">
+                        <div id="explanation-card" class="p-6 sm:p-8 bg-white/5 border border-white/5 rounded-[2rem] sm:rounded-[3rem] space-y-6 relative overflow-hidden group shadow-xl">
                             <div class="absolute top-0 left-0 w-1 h-full bg-emerald-500 opacity-50"></div>
-                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center gap-2">
+                            <h3 class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center gap-2">
                                 <i data-lucide="info" class="w-3 h-3 text-emerald-500"></i> Diagram Guide
                             </h3>
-                            <ul id="explanation-steps" class="space-y-4 list-none">
+                            <ul id="explanation-steps" class="space-y-3 sm:space-y-4 list-none">
                                 <!-- Populated by index.tsx -->
                             </ul>
                         </div>
-
-                        <div id="active-formula" class="hidden"></div>
                     </div>
                 </div>
             </section>

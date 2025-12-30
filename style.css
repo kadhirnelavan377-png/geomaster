@@ -2,7 +2,7 @@
 body {
     background-color: #020617;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
@@ -27,23 +27,23 @@ body {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.6rem 1.2rem;
+    padding: 0.7rem 1.2rem;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 1.2rem;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     color: #94a3b8;
+    white-space: nowrap;
 }
 
 .amazing-label {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.12em;
 }
 
 .amazing-btn:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); color: white; }
-
 .amazing-btn.active { box-shadow: 0 10px 25px -5px currentColor; border-color: currentColor; color: white !important; }
 
 /* Themes */
@@ -64,10 +64,10 @@ body {
     text-align: left;
     transition: all 0.3s;
     position: relative;
+    cursor: pointer;
 }
 
 .topic-card:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(5px); border-color: rgba(255,255,255,0.1); }
-
 .topic-card-active {
     background: rgba(255,255,255,0.08) !important;
     border-color: rgba(255,255,255,0.2) !important;
@@ -78,13 +78,13 @@ body {
 .explanation-li {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
-    padding: 0.75rem 0;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
     transition: all 0.3s;
 }
 
 .li-bullet {
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -99,9 +99,9 @@ body {
 }
 
 .li-text {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    line-height: 1.6;
+    line-height: 1.5;
     color: #94a3b8;
     font-style: italic;
     transition: color 0.3s;
@@ -111,11 +111,11 @@ body {
     color: #f1f5f9;
 }
 
-svg { touch-action: none; overflow: visible; }
+svg { touch-action: none; overflow: visible; display: block; max-width: 100%; height: auto; }
 button:active { transform: scale(0.96); }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 
@@ -127,14 +127,18 @@ button:active { transform: scale(0.96); }
 }
 
 /* Rating Module */
-.rating-star:hover {
-    transform: scale(1.2);
-}
+.rating-star:hover { transform: scale(1.2); }
 
-/* Creator Panel */
+/* Range Input */
 input[type="range"] {
     -webkit-appearance: none;
     height: 4px;
     background: #1e293b;
     border-radius: 2px;
+}
+
+/* Responsive Overrides */
+@media (max-width: 640px) {
+    .topic-card { padding: 0.8rem 1rem; }
+    .li-text { font-size: 0.7rem; }
 }
