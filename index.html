@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GeoLab Ultimate | The Geometric Playground</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/d3@7"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "d3": "https://esm.sh/d3@^7.9.0"
+  }
+}
+</script>
+</head>
+<body class="bg-[#020617] text-slate-200 overflow-x-hidden scroll-smooth selection:bg-emerald-500/30">
+    <!-- Animated Background Atmosphere -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="glow-orb top-[-10%] left-[-10%] bg-emerald-500/10"></div>
+        <div class="glow-orb bottom-[-10%] right-[-10%] bg-violet-500/10"></div>
+        <div id="bg-shapes" class="absolute inset-0"></div>
+    </div>
+
+    <!-- Global Overlays (Settings & Help) -->
+    <div id="global-overlays" class="fixed inset-0 z-[600] pointer-events-none">
+        <!-- Inner Panel: Settings (Slide-up) -->
+        <div id="inner-settings" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-xl bg-slate-950/95 backdrop-blur-3xl z-20 translate-y-full transition-transform duration-500 p-8 md:p-12 rounded-t-[2.5rem] md:rounded-t-[3rem] border-t border-x border-white/10 pointer-events-auto shadow-2xl">
+            <button id="close-inner-settings" class="absolute top-6 right-6 p-2 text-slate-500 hover:text-white transition-colors"><i data-lucide="x"></i></button>
+            <h3 class="text-xl font-black text-white italic mb-8 uppercase tracking-widest">Global Settings</h3>
+            <div class="space-y-6">
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <div>
+                        <p class="text-xs font-black text-white uppercase tracking-widest">Atmosphere</p>
+                        <p class="text-[9px] text-slate-500 uppercase">Math-synth loops</p>
+                    </div>
+                    <button id="setting-music-toggle" class="w-12 h-6 bg-slate-800 rounded-full relative p-1 transition-all">
+                        <div id="music-knob" class="w-4 h-4 bg-white rounded-full transition-all"></div>
+                    </button>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <div>
+                        <p class="text-xs font-black text-white uppercase tracking-widest">Interaction SFX</p>
+                        <p class="text-[9px] text-slate-500 uppercase">Haptic feedback</p>
+                    </div>
+                    <button id="setting-sfx-toggle" class="w-12 h-6 bg-emerald-600 rounded-full relative p-1 transition-all">
+                        <div id="sfx-knob" class="w-4 h-4 bg-white rounded-full translate-x-6 transition-all"></div>
+                    </button>
+                </div>
+                <div class="pt-6 border-t border-white/5">
+                    <p class="text-[9px] text-slate-600 font-bold uppercase tracking-[0.3em] text-center italic">GeoLab Audio Engine v2.1</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inner Panel: How to Use (Slide-up) -->
+        <div id="inner-how" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-xl bg-slate-950/95 backdrop-blur-3xl z-20 translate-y-full transition-transform duration-500 p-8 md:p-12 rounded-t-[2.5rem] md:rounded-t-[3rem] border-t border-x border-white/10 pointer-events-auto shadow-2xl overflow-y-auto max-h-[85vh] custom-scrollbar">
+            <button id="close-inner-how" class="absolute top-6 right-6 p-2 text-slate-500 hover:text-white transition-colors"><i data-lucide="x"></i></button>
+            <h3 class="text-xl font-black text-white italic mb-6 uppercase tracking-widest text-center md:text-left">How to Use</h3>
+            <div class="space-y-6 text-sm text-slate-400">
+                <div class="flex gap-4 items-start p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <div class="p-3 bg-emerald-500/20 text-emerald-400 rounded-xl font-black shrink-0">1</div>
+                    <p><strong class="text-white block mb-1">Choose a Lab:</strong> Switch between Triangles and Circles using the top navigator.</p>
+                </div>
+                <div class="flex gap-4 items-start p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <div class="p-3 bg-violet-500/20 text-violet-400 rounded-xl font-black shrink-0">2</div>
+                    <p><strong class="text-white block mb-1">Interact:</strong> Drag the bright dots on the canvas to reshape the geometry in real-time.</p>
+                </div>
+                <div class="flex gap-4 items-start p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <div class="p-3 bg-amber-500/20 text-amber-400 rounded-xl font-black shrink-0">3</div>
+                    <p><strong class="text-white block mb-1">Mastery:</strong> Tap any lesson chip to see a bite-sized explanation of the concept.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Premium Auth Hub -->
+    <section id="auth-hub" class="fixed inset-0 z-[500] flex items-center justify-center p-4 md:p-6 bg-[#020617]/90 backdrop-blur-md">
+        <div class="relative w-full max-w-[900px] min-h-[500px] md:h-[600px] bg-slate-900/40 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl flex flex-col md:flex-row overflow-hidden scale-in">
+            
+            <!-- Side Panel: Hidden on small mobile -->
+            <div class="hidden md:flex w-1/2 bg-gradient-to-br from-emerald-600/20 to-violet-600/20 p-12 flex-col justify-between relative border-r border-white/5">
+                <div class="space-y-4 relative z-10">
+                    <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-6">
+                        <i data-lucide="triangle" class="text-emerald-400 w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-4xl font-black tracking-tighter text-white italic">Master <br/><span class="text-emerald-400">Geometry</span> Without <br/>Doubts.</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed">Join 10,000+ students exploring the deep relationships between lines, angles, and circles.</p>
+                </div>
+                <div class="flex gap-4 relative z-10">
+                    <button id="entry-how-btn" class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/60 hover:text-emerald-400 transition-all">
+                        <i data-lucide="info" class="w-4 h-4"></i> How it works
+                    </button>
+                    <button id="entry-settings-btn" class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/60 hover:text-violet-400 transition-all">
+                        <i data-lucide="settings" class="w-4 h-4"></i> Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interaction Panel -->
+            <div class="flex-1 p-8 md:p-12 flex flex-col justify-center relative bg-slate-950/20">
+                <div class="md:hidden flex justify-center mb-8">
+                     <div class="w-14 h-14 rounded-2xl bg-emerald-600/20 flex items-center justify-center border border-emerald-500/30">
+                        <i data-lucide="compass" class="text-emerald-400 w-8 h-8"></i>
+                    </div>
+                </div>
+
+                <div id="login-view" class="space-y-6 md:space-y-8 animate-fade-in">
+                    <header class="text-center md:text-left">
+                        <h3 class="text-2xl md:text-3xl font-black text-white italic">Welcome Back</h3>
+                        <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Sign in to your lab</p>
+                    </header>
+                    <div class="space-y-4">
+                        <input type="text" id="login-user" placeholder="Explorer Name" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all placeholder:text-slate-700">
+                        <button id="btn-login-submit" class="w-full py-5 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-black text-white transition-all active:scale-95 shadow-xl shadow-emerald-600/20 uppercase tracking-widest text-xs">Enter Playground</button>
+                        <button id="go-to-signup" class="w-full text-center text-[10px] font-black text-slate-500 hover:text-white uppercase tracking-widest transition-all mt-4">New here? Create Profile</button>
+                    </div>
+                </div>
+
+                <div id="signup-view" class="hidden space-y-6 animate-fade-in">
+                    <header class="text-center md:text-left">
+                        <h3 class="text-2xl md:text-3xl font-black text-white italic tracking-tight">New Journey</h3>
+                        <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Create your identity</p>
+                    </header>
+                    <div class="space-y-4">
+                        <input type="text" id="signup-user" placeholder="Choose a name" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/20 transition-all placeholder:text-slate-700">
+                        <button id="btn-signup-submit" class="w-full py-5 bg-violet-600 hover:bg-violet-500 rounded-2xl font-black text-white transition-all active:scale-95 shadow-xl shadow-violet-600/20 uppercase tracking-widest text-xs">Join the Lab</button>
+                        <button id="go-to-login" class="w-full text-center text-[10px] font-black text-slate-500 hover:text-white uppercase tracking-widest transition-all mt-4">Back to Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Scroll Controls (Hidden on mobile for cleaner UI) -->
+    <div class="hidden md:flex fixed bottom-8 left-8 z-[200] flex-col gap-3">
+        <button id="global-scroll-top" class="w-12 h-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white transition-all shadow-xl active:scale-90">
+            <i data-lucide="chevrons-up" class="w-5 h-5"></i>
+        </button>
+        <button id="global-scroll-bottom" class="w-12 h-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white transition-all shadow-xl active:scale-90">
+            <i data-lucide="chevrons-down" class="w-5 h-5"></i>
+        </button>
+    </div>
+
+    <!-- Dashboard (Main App) -->
+    <main id="app-shell" class="hidden min-h-screen math-grid relative z-10 opacity-0 transition-opacity duration-500">
+        <nav class="p-4 md:p-6 border-b border-white/5 flex justify-between items-center max-w-7xl mx-auto backdrop-blur-md sticky top-0 z-50">
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="p-2 bg-emerald-600 rounded-lg shrink-0"><i data-lucide="compass" class="text-white w-4 h-4 md:w-5 md:h-5"></i></div>
+                <h1 class="text-lg md:text-xl font-black text-white italic tracking-tighter uppercase hidden sm:block">GeoLab</h1>
+            </div>
+            
+            <div class="flex items-center gap-1.5 bg-slate-900/80 p-1 rounded-2xl border border-white/10 shadow-lg">
+                <button id="nav-triangle" class="px-4 md:px-6 py-2 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap">Triangles</button>
+                <button id="nav-circle" class="px-4 md:px-6 py-2 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap">Circles</button>
+            </div>
+
+            <div class="flex items-center gap-2 md:gap-3">
+                <button id="dash-settings-btn" class="p-2.5 md:p-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 hover:text-white transition-all active:scale-90">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                </button>
+                <button id="logout-trigger" class="p-2.5 md:p-3 text-slate-500 hover:text-rose-500 transition-colors bg-white/5 border border-white/10 rounded-xl"><i data-lucide="log-out" class="w-5 h-5"></i></button>
+            </div>
+        </nav>
+
+        <div class="max-w-7xl mx-auto p-4 md:p-8 flex flex-col gap-8 pb-32">
+            <!-- Knowledge Base: Responsive Chips on Mobile, Sidebar on Desktop -->
+            <section class="space-y-4">
+                <div class="flex justify-between items-center px-2">
+                    <h2 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Knowledge Base</h2>
+                    <span id="display-user" class="text-[10px] font-black uppercase tracking-widest text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full md:hidden">Explorer</span>
+                </div>
+                <!-- This container uses CSS to become scrollable on mobile -->
+                <div id="lesson-list" class="lesson-scroller flex md:grid md:grid-cols-4 lg:grid-cols-7 gap-3 overflow-x-auto md:overflow-visible pb-4 md:pb-0 px-2 scroll-smooth"></div>
+            </section>
+
+            <!-- Main Interactive Lab -->
+            <section class="animate-fade-in space-y-6">
+                <div class="flex justify-between items-end px-2">
+                    <div>
+                        <h2 id="view-title" class="text-2xl md:text-4xl font-black italic text-white tracking-tight">Lab</h2>
+                        <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Focus: <span id="view-lesson" class="text-emerald-500">Topic</span></p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/60 rounded-[2.5rem] md:rounded-[3.5rem] p-4 md:p-10 border border-white/5 shadow-2xl backdrop-blur-sm flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start">
+                    <!-- Canvas Area -->
+                    <div class="w-full max-w-[400px] bg-slate-950 p-4 md:p-6 rounded-[2rem] md:rounded-[3rem] border border-white/10 shadow-2xl relative group overflow-hidden shrink-0">
+                        <div class="absolute -inset-10 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                        <svg id="canvas" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet" class="w-full h-auto relative z-10"></svg>
+                    </div>
+
+                    <!-- Statistics Area -->
+                    <div id="stats-container" class="w-full flex-1 space-y-4 md:space-y-6"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Detailed Explanation Modal -->
+    <div id="modal-container" class="hidden fixed inset-0 z-[700] flex items-center justify-center p-3 md:p-6">
+        <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-2xl" id="modal-overlay"></div>
+        <div class="relative w-full max-w-2xl bg-[#020617] border border-white/10 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col scale-in max-h-[90vh]">
+            <div class="p-6 md:p-8 border-b border-white/5 flex justify-between items-center bg-white/5 shrink-0">
+                <div class="flex items-center gap-4">
+                    <div class="p-2.5 bg-emerald-600 rounded-xl md:rounded-2xl shadow-xl"><i data-lucide="book-open" class="text-white w-5 h-5 md:w-6 md:h-6"></i></div>
+                    <h2 id="modal-title" class="text-xl md:text-2xl font-black italic text-white tracking-tight uppercase leading-none">Guide</h2>
+                </div>
+                <button id="modal-close-x" class="p-2 text-slate-500 hover:text-white transition-colors"><i data-lucide="x" class="w-6 h-6 md:w-8 md:h-8"></i></button>
+            </div>
+            <div id="modal-body" class="p-6 md:p-10 text-slate-400 space-y-6 overflow-y-auto custom-scrollbar flex-1"></div>
+            <div class="p-6 md:p-8 border-t border-white/5 bg-slate-900/40 shrink-0">
+                <button id="modal-close-btn" class="w-full py-5 bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest hover:bg-emerald-500 shadow-xl active:scale-95 transition-all">Understood</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>

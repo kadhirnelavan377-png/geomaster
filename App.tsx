@@ -1,0 +1,1 @@
+// File removed to fix React error #299
