@@ -97,18 +97,19 @@ function setupEventListeners() {
         document.getElementById('creator-panel')?.classList.add('translate-x-full');
     });
 
-    document.getElementById('mobile-menu-toggle')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu-toggle')?.addEventListener('click', (e) => {
+        e.stopPropagation();
         localState.isMenuOpen = !localState.isMenuOpen;
-        const sidebar = document.getElementById('sidebar');
-        if (localState.isMenuOpen) sidebar?.classList.remove('-translate-x-full');
-        else sidebar?.classList.add('-translate-x-full');
+        toggleSidebar(localState.isMenuOpen);
     });
 
-    // Close menu when clicking outside on mobile
-    document.querySelector('section')?.addEventListener('click', () => {
-        if (localState.isMenuOpen) {
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const sidebar = document.getElementById('sidebar');
+        const menuBtn = document.getElementById('mobile-menu-toggle');
+        if (localState.isMenuOpen && sidebar && !sidebar.contains(e.target as Node) && !menuBtn?.contains(e.target as Node)) {
             localState.isMenuOpen = false;
-            document.getElementById('sidebar')?.classList.add('-translate-x-full');
+            toggleSidebar(false);
         }
     });
 
@@ -121,6 +122,12 @@ function setupEventListeners() {
     });
 
     document.getElementById('logout-trigger')?.addEventListener('click', () => window.location.reload());
+}
+
+function toggleSidebar(open: boolean) {
+    const sidebar = document.getElementById('sidebar');
+    if (open) sidebar?.classList.remove('-translate-x-full');
+    else sidebar?.classList.add('-translate-x-full');
 }
 
 function updateRatingUI() {
@@ -159,11 +166,9 @@ function renderNav() {
             localState.domain = d.id; 
             localState.lesson = LAB_MAP[d.id][0]; 
             updateUI(); 
-            // Close mobile menu if open
-            if (localState.isMenuOpen) {
-                localState.isMenuOpen = false;
-                document.getElementById('sidebar')?.classList.add('-translate-x-full');
-            }
+            // Close sidebar when navigating
+            localState.isMenuOpen = false;
+            toggleSidebar(false);
         };
         return btn;
     };
@@ -206,11 +211,9 @@ function updateUI() {
                 localState.lesson = name; 
                 localState.workflow[name] = 'active';
                 updateUI(); 
-                // Close mobile menu if open
-                if (localState.isMenuOpen) {
-                    localState.isMenuOpen = false;
-                    document.getElementById('sidebar')?.classList.add('-translate-x-full');
-                }
+                // Close sidebar when topic selected
+                localState.isMenuOpen = false;
+                toggleSidebar(false);
             };
             list.appendChild(btn);
         });
@@ -256,7 +259,7 @@ function draw() {
     }
 }
 
-// --- Specific Lab Implementation (Simplified for brevity) ---
+// --- Specific Lab Implementation ---
 function drawCoordinates(svg: any, addLabel: any) {
     const { p1, p2 } = localState.points;
     for(let i=10; i<=490; i+=40) {
